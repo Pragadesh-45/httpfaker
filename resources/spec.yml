@@ -267,6 +267,106 @@ paths:
                   message:
                     type: string
                     example: Unauthorized
+  /api/auth/digest/{qop}/{user}/{passwd}:
+    get:
+      summary: Digest Authentication with Dynamic Parameters
+      description: Prompts the user for authorization using Digest Auth with configurable QOP, user, and password
+      tags:
+        - Auth
+      parameters:
+        - in: path
+          name: qop
+          required: true
+          schema:
+            type: string
+            enum: [auth, auth-int, none]
+          description: Quality of Protection (auth, auth-int, or none)
+          example: auth
+        - in: path
+          name: user
+          required: true
+          schema:
+            type: string
+          description: Username (will be auto-created if doesn't exist)
+          example: admin
+        - in: path
+          name: passwd
+          required: true
+          schema:
+            type: string
+          description: Password for the user
+          example: password
+      responses:
+        200:
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Access granted
+                  user:
+                    type: string
+                    example: admin
+                  qop:
+                    type: string
+                    example: auth
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: httpfaker
+                      version:
+                        type: string
+                        example: 0.2.0
+                      features:
+                        type: array
+                        items:
+                          type: string
+                        example: ['digest-auth', 'bearer-auth', 'oauth2']
+                      timestamp:
+                        type: string
+                        format: date-time
+                      currentUsers:
+                        type: array
+                        items:
+                          type: string
+                        example: ['admin', 'user', 'test']
+        401:
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Authentication required
+                  sessionId:
+                    type: string
+                    example: 127.0.0.1
+                  qop:
+                    type: string
+                    example: auth
+                  users:
+                    type: array
+                    items:
+                      type: string
+                    example: ['admin', 'user', 'test']
+          headers:
+            WWW-Authenticate:
+              description: Digest authentication challenge
+              schema:
+                type: string
+                example: 'Digest realm="httpfaker.org", qop="auth", nonce="base64nonce", opaque="httpfaker-opaque-value"'
+            X-Session-ID:
+              description: Session identifier
+              schema:
+                type: string
+                example: 127.0.0.1
   /api/random/json:
     get:
       summary: Generate random user data
@@ -352,4 +452,4 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT 
+      bearerFormat: JWT
