@@ -4,6 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const openApiSpecification = require('./openapi');
 const oauth2ClientCredentials = require('./auth/oauth2/client-credentials');
 const bearerAuth = require('./auth/bearer');
+const digestAuth = require('./auth/digest');
 
 const echo = require('./echo');
 const echoRaw = require('./echo/raw');
@@ -30,6 +31,7 @@ app.get('/api/random/json', generateRandomJson);
 
 app.use('/api/auth/oauth2/client-credentials', oauth2ClientCredentials);
 app.use('/api/auth/bearer', bearerAuth);
+app.use('/api/auth/digest', digestAuth);
 app.use('/', swaggerUi.serve);
 app.get('/', swaggerUi.setup(openApiSpecification));
 
