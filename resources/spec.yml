@@ -307,6 +307,9 @@ paths:
                   message:
                     type: string
                     example: Access granted
+                  authenticated:
+                    type: boolean
+                    example: true
                   user:
                     type: string
                     example: admin
