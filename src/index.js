@@ -10,6 +10,7 @@ const echo = require('./echo');
 const echoRaw = require('./echo/raw');
 const echoCustom = require('./echo/custom');
 const generateRandomJson = require('./random/json');
+const generateUuid = require('./random/uuid');
 
 const app = express();
 const PORT = 8080;
@@ -28,6 +29,7 @@ app.post('/api/echo', echo);
 app.post('/api/echo/raw', echoRaw);
 app.post('/api/echo/custom', echoCustom);
 app.get('/api/random/json', generateRandomJson);
+app.get('/api/uuid', generateUuid);
 
 app.use('/api/auth/oauth2/client-credentials', oauth2ClientCredentials);
 app.use('/api/auth/bearer', bearerAuth);

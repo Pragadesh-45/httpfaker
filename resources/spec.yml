@@ -10,6 +10,8 @@ tags:
     description: Authentication endpoints
   - name: Random Data
     description: Endpoints that generate random data
+  - name: Dynamic data
+    description: Endpoints that generate dynamic data
 paths:
   /api/echo:
     post:
@@ -449,6 +451,27 @@ paths:
                     type: string
                     description: Error message
                     example: Invalid size unit. Supported units are mb, kb
+  /api/uuid:
+    get:
+      summary: Generate a UUID4
+      description: Return a UUID4
+      tags:
+        - Dynamic data
+      produces:
+        - application/json
+      responses:
+        200:
+          description: A UUID4
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    format: uuid
+                    description: A UUID4 string
+                    example: 550e8400-e29b-41d4-a716-446655440000
 
 components:
   securitySchemes:

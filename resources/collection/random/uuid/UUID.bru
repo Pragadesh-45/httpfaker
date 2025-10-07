@@ -1,0 +1,16 @@
+meta {
+  name: UUID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/uuid
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.uuid: exists
+}
